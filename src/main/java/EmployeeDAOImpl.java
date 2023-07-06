@@ -75,22 +75,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
             while (resultSet.next()) {
                 int idOfEmployee = resultSet.getInt("id");
-//                System.out.println("ID сотрудника: " + idOfEmployee);
-
                 String firstName = resultSet.getString("first_name");
-//                System.out.println("Имя сотрудника: " + firstName);
-
                 String lastName = resultSet.getString("last_name");
-//                System.out.println("Фамилия сотрудника: " + lastName);
-
                 String gender = resultSet.getString("gender");
-//                System.out.println("Пол: " + gender);
-
                 int age = resultSet.getInt("age");
-//                System.out.println("Возраст: " + age);
-
                 int city = resultSet.getInt("city_id");
-//                System.out.println("id_города: " + city);
 
                 employees.add(new Employee(idOfEmployee, firstName, lastName, gender, age, city));
             }
