@@ -24,7 +24,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             statement.setInt(5, employee.getAge());
             statement.setInt(6, employee.getCity());
 
-            int resultSet = statement.executeUpdate();
+            statement.executeUpdate();
             System.out.println("Сотрудник id = " + employee.getId() + " успешно добавлен!");
 
         } catch (
@@ -46,7 +46,6 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-
                 int idOfEmployee = resultSet.getInt("id");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
@@ -55,13 +54,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 int amountOfCity = resultSet.getInt("city_id");
                 employee = new Employee(idOfEmployee, firstName, lastName, gender, age, amountOfCity);
             }
+
         } catch (SQLException e) {
             System.out.println("Ошибка при подключении к БД!");
             e.printStackTrace();
         }
         return employee;
     }
-
 
     // получение списка всех объектов Employee из базы
     @Override
@@ -76,26 +75,26 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
             while (resultSet.next()) {
                 int idOfEmployee = resultSet.getInt("id");
-                System.out.println("ID сотрудника: " + idOfEmployee);
+//                System.out.println("ID сотрудника: " + idOfEmployee);
 
                 String firstName = resultSet.getString("first_name");
-                System.out.println("Имя сотрудника: " + firstName);
+//                System.out.println("Имя сотрудника: " + firstName);
 
                 String lastName = resultSet.getString("last_name");
-                System.out.println("Фамилия сотрудника: " + lastName);
+//                System.out.println("Фамилия сотрудника: " + lastName);
 
                 String gender = resultSet.getString("gender");
-                System.out.println("Пол: " + gender);
+//                System.out.println("Пол: " + gender);
 
                 int age = resultSet.getInt("age");
-                System.out.println("Возраст: " + age);
+//                System.out.println("Возраст: " + age);
 
                 int city = resultSet.getInt("city_id");
-                System.out.println("id_города: " + city);
+//                System.out.println("id_города: " + city);
 
                 employees.add(new Employee(idOfEmployee, firstName, lastName, gender, age, city));
-
             }
+
         } catch (SQLException e) {
             System.out.println("Ошибка при подключении к БД!");
             e.printStackTrace();
@@ -111,15 +110,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             String sql = "UPDATE employee SET first_name = ?, last_name  = ?, gender = ?, age = ?, city_id  = ?) " +
                     "WHERE id = " + id;
             PreparedStatement statement = connection.prepareStatement(sql);
+
             Employee employee = findEmployeeById(id);
 
             statement.setString(1, employee.getFirstName());
             statement.setString(2, employee.getLastName());
             statement.setString(3, employee.getGender());
-            statement.setInt(4, employee.getAge());
+            statement.setInt(4, 0);
             statement.setInt(5, employee.getCity());
 
-            int resultSet = statement.executeUpdate();
+            statement.executeUpdate();
             System.out.println("Данные сотрудника id = " + employee.getId() + " успешно изменены!");
 
         } catch (SQLException e) {
@@ -136,7 +136,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             String sql = "DELETE FROM employee WHERE id = " + id;
             PreparedStatement statement = connection.prepareStatement(sql);
 
-            int resultSet = statement.executeUpdate();
+            statement.executeUpdate();
             System.out.println("Сотрудник id = " + id + " успешно удален!");
 
         } catch (SQLException e) {
