@@ -11,7 +11,7 @@ public interface EmployeeDAO {
     List<Employee> getAllEmployee();
 
     // изменение конкретного объекта Employee в базе по id
-    void setEmployeeById(int id);
+    void setEmployeeById(int id, String firstName, String lastName, String gender, int age, int city);
 
     // удаление конкретного объекта Employee из базы по id
     void deleteEmployeeById(int id);

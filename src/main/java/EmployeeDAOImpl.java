@@ -1,3 +1,5 @@
+import validate_utils.ValidateUtils;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +42,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Employee employee = null;
         try (final Connection connection = DriverManager.getConnection(url, user, password)) {
 
-            String sql = "SELECT * FROM employee WHERE id = " + id;
+            String sql = "SELECT * FROM employee WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
+
+            statement.setInt(1, id);
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -93,20 +97,25 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     // изменение конкретного объекта Employee в базе по id
     @Override
-    public void setEmployeeById(int id) {
+    public void setEmployeeById(int id, String firstName, String lastName, String gender, int age, int city) {
         try (final Connection connection = DriverManager.getConnection(url, user, password)
         ) {
-            String sql = "UPDATE employee SET first_name = ?, last_name  = ?, gender = ?, age = ?, city_id  = ?) " +
-                    "WHERE id = " + id;
+            String sql = "UPDATE employee SET first_name = ?, last_name  = ?, gender = ?, age = ?, city_id  = ? " +
+                    "WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-
             Employee employee = findEmployeeById(id);
 
-            statement.setString(1, employee.getFirstName());
-            statement.setString(2, employee.getLastName());
-            statement.setString(3, employee.getGender());
-            statement.setInt(4, 0);
-            statement.setInt(5, employee.getCity());
+            firstName = ValidateUtils.checkString(employee.getFirstName(), firstName);
+            statement.setString(1, firstName);
+            lastName = ValidateUtils.checkString(employee.getLastName(), lastName);
+            statement.setString(2, lastName);
+            gender = ValidateUtils.checkString(employee.getGender(), gender);
+            statement.setString(3, gender);
+            age = ValidateUtils.checkInt(employee.getAge(), age);
+            statement.setInt(4, age);
+            city = ValidateUtils.checkInt(employee.getCity(), city);
+            statement.setInt(5, city);
+            statement.setInt(6, id);
 
             statement.executeUpdate();
             System.out.println("Данные сотрудника id = " + employee.getId() + " успешно изменены!");
@@ -122,9 +131,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void deleteEmployeeById(int id) {
         try (final Connection connection = DriverManager.getConnection(url, user, password)
         ) {
-            String sql = "DELETE FROM employee WHERE id = " + id;
+            String sql = "DELETE FROM employee WHERE id = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
-
+            statement.setInt(1, id);
             statement.executeUpdate();
             System.out.println("Сотрудник id = " + id + " успешно удален!");
 

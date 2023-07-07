@@ -67,7 +67,7 @@ public class Application {
         EmployeeDAOImpl employeeDAOImpl = new EmployeeDAOImpl();
 
         // получение списка всех объектов Employee из базы
-        System.out.println("Список всех сотрудников");
+        System.out.println("Список всех сотрудников:");
         List<Employee> employees = employeeDAOImpl.getAllEmployee();
         for (Employee employee : employees) {
             printEmployee(employee);
@@ -84,9 +84,11 @@ public class Application {
         printEmployee(employee);
 
         // изменение конкретного объекта Employee в базе по id
-        employeeDAOImpl.setEmployeeById(10);
+        System.out.println();
+        employeeDAOImpl.setEmployeeById(10, "Вэш", "Ураган", "",-131,1);
 
         // удаление конкретного объекта Employee из базы по id
+        System.out.println();
         employeeDAOImpl.deleteEmployeeById(10);
 
     }
