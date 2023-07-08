@@ -50,13 +50,12 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int idOfEmployee = resultSet.getInt("id");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
                 String gender = resultSet.getString("gender");
                 int age = resultSet.getInt("age");
                 int amountOfCity = resultSet.getInt("city_id");
-                employee = new Employee(idOfEmployee, firstName, lastName, gender, age, amountOfCity);
+                employee = new Employee(firstName, lastName, gender, age, amountOfCity);
             }
 
         } catch (SQLException e) {
@@ -78,14 +77,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int idOfEmployee = resultSet.getInt("id");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
                 String gender = resultSet.getString("gender");
                 int age = resultSet.getInt("age");
                 int city = resultSet.getInt("city_id");
 
-                employees.add(new Employee(idOfEmployee, firstName, lastName, gender, age, city));
+                employees.add(new Employee(firstName, lastName, gender, age, city));
             }
 
         } catch (SQLException e) {
