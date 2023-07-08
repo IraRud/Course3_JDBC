@@ -8,6 +8,12 @@
   <name>Course3_JDBC Maven Webapp</name>
   <url>http://maven.apache.org</url>
 
+  <properties>
+    <java.version>11</java.version>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -26,5 +32,15 @@
 
   <build>
     <finalName>Course3_JDBC</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>11</source>
+          <target>11</target>
+        </configuration>
+      </plugin>
+    </plugins>
   </build>
 </project>
