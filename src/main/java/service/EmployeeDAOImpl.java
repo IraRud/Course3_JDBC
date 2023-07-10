@@ -1,3 +1,7 @@
+package service;
+
+import model.Employee;
+import service.EmployeeDAO;
 import validate_utils.ValidateUtils;
 
 import java.sql.*;
@@ -6,9 +10,6 @@ import java.util.List;
 
 public class EmployeeDAOImpl implements EmployeeDAO {
 
-    final String user = "postgres";
-    final String password = "7899";
-    final String url = "jdbc:postgresql://localhost:5432/skypro";
 
     // создание (добавление) сущности Employee в таблицу
     @Override
@@ -36,7 +37,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         }
     }
 
-    // получение конкретного объекта Employee по id
+    // получение конкретного объекта model.Employee по id
     @Override
     public Employee findEmployeeById(int id) {
         Employee employee = null;
@@ -55,7 +56,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                 String gender = resultSet.getString("gender");
                 int age = resultSet.getInt("age");
                 int amountOfCity = resultSet.getInt("city_id");
-                employee = new Employee(firstName, lastName, gender, age, amountOfCity);
+                employee = new Employee(id, firstName, lastName, gender, age, amountOfCity);
             }
 
         } catch (SQLException e) {
@@ -77,13 +78,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
+                int id = resultSet.getInt("id");
                 String firstName = resultSet.getString("first_name");
                 String lastName = resultSet.getString("last_name");
                 String gender = resultSet.getString("gender");
                 int age = resultSet.getInt("age");
                 int city = resultSet.getInt("city_id");
 
-                employees.add(new Employee(firstName, lastName, gender, age, city));
+                employees.add(new Employee(id, firstName, lastName, gender, age, city));
             }
 
         } catch (SQLException e) {
@@ -93,7 +95,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         return employees;
     }
 
-    // изменение конкретного объекта Employee в базе по id
+    // изменение конкретного объекта model.Employee в базе по id
     @Override
     public void setEmployeeById(int id, String firstName, String lastName, String gender, int age, int city) {
         try (final Connection connection = DriverManager.getConnection(url, user, password)
@@ -124,7 +126,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         }
     }
 
-    // удаление конкретного объекта Employee из базы по id
+    // удаление конкретного объекта model.Employee из базы по id
     @Override
     public void deleteEmployeeById(int id) {
         try (final Connection connection = DriverManager.getConnection(url, user, password)

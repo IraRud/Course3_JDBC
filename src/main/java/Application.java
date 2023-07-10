@@ -61,36 +61,36 @@ public class Application {
 
 //    private static void task_2() {
 //
-//        EmployeeDAOImpl employeeDAOImpl = new EmployeeDAOImpl();
+//        service.EmployeeDAOImpl employeeDAOImpl = new service.EmployeeDAOImpl();
 //
-//        // получение списка всех объектов Employee из базы
+//        // получение списка всех объектов model.Employee из базы
 //        System.out.println("Список всех сотрудников:");
-//        List<Employee> employees = employeeDAOImpl.getAllEmployee();
-//        for (Employee employee : employees) {
+//        List<model.Employee> employees = employeeDAOImpl.getAllEmployee();
+//        for (model.Employee employee : employees) {
 //            printEmployee(employee);
 //            System.out.println();
 //        }
 //
-//        // создание (добавление) сущности Employee в таблицу
-//        employeeDAOImpl.addEmployee(new Employee(10, "Бред", "Питт", "муж.", 51, 2));
+//        // создание (добавление) сущности model.Employee в таблицу
+//        employeeDAOImpl.addEmployee(new model.Employee(10, "Бред", "Питт", "муж.", 51, 2));
 //
-//        // получение конкретного объекта Employee по id
-//        Employee employee = employeeDAOImpl.findEmployeeById(10);
+//        // получение конкретного объекта model.Employee по id
+//        model.Employee employee = employeeDAOImpl.findEmployeeById(10);
 //        System.out.println();
 //        System.out.println("Информация о сотруднике с id = " + employee.getId());
 //        printEmployee(employee);
 //
-//        // изменение конкретного объекта Employee в базе по id
+//        // изменение конкретного объекта model.Employee в базе по id
 //        System.out.println();
 //        employeeDAOImpl.setEmployeeById(10, "Вэш", "Ураган", "",-131,1);
 //
-//        // удаление конкретного объекта Employee из базы по id
+//        // удаление конкретного объекта model.Employee из базы по id
 //        System.out.println();
 //        employeeDAOImpl.deleteEmployeeById(10);
 //
 //    }
 //
-//    private static void printEmployee(Employee employee) {
+//    private static void printEmployee(model.Employee employee) {
 //        System.out.println("ID сотрудника: " + employee.getId());
 //        System.out.println("Имя сотрудника: " + employee.getFirstName());
 //        System.out.println("Фамилия сотрудника: " + employee.getLastName());
