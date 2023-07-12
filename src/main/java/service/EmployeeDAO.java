@@ -1,3 +1,7 @@
+package service;
+
+import model.Employee;
+
 import java.util.List;
 
 public interface EmployeeDAO {
@@ -8,11 +12,11 @@ public interface EmployeeDAO {
     Employee findEmployeeById(int id);
 
     // получение списка всех объектов Employee из базы
-    List<Employee> getAllEmployee();
+    List<Employee> getAllEmployees();
 
-    // изменение конкретного объекта Employee в базе по id
-    void setEmployeeById(int id, String firstName, String lastName, String gender, int age, int city);
+    // изменение конкретного объекта Employee в базе
+    void setEmployee(Employee employee);
 
-    // удаление конкретного объекта Employee из базы по id
-    void deleteEmployeeById(int id);
+    // удаление конкретного объекта Employee из базы
+    void deleteEmployee(Employee employee);
 }
