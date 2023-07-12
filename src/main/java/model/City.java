@@ -1,25 +1,27 @@
 package model;
 
+import lombok.*;
+
+import javax.persistence.*;
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+@EqualsAndHashCode(exclude = {"id"})
+@Entity
+@Table(name = "city")
 public class City {
-    private final int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "city_id")
+    private int id;
+
+    @Column(name = "city_name")
     private String name;
 
-    // конструктор со всеми полями
-    public City(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    // геттеры и сеттеры для полей класса
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    private List<Employee> employees;
 }
