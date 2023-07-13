@@ -48,12 +48,14 @@ public class CityDAOImpl implements CityDAO {
 
     // удаление конкретного объекта City из базы по id
     @Override
-    public void deleteCity(City city) {
+    public int deleteCity(City city) {
+        int id = city.getId();
         try (Session session = service.HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(city);
+            session.remove(city);
             transaction.commit();
         }
+        return id;
     }
 
 }

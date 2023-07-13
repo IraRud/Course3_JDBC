@@ -14,5 +14,5 @@ public interface CityDAO {
 
     City setCity(City city);
 
-    void deleteCity(City city);
+    int deleteCity(City city);
 }

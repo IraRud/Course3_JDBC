@@ -8,8 +8,9 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode(exclude = {"id"})
+@Builder
+@ToString(exclude = {"id"})
+@EqualsAndHashCode(of = {"id"})
 @Entity
 @Table(name = "employee")
 public class Employee {
@@ -30,7 +31,7 @@ public class Employee {
     @Column(name = "age")
     private int age;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "city_id")
     private City city;
 }

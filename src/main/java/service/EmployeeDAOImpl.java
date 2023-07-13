@@ -49,7 +49,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     public void deleteEmployee(Employee employee) {
         try (Session session = service.HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.delete(employee);
+            session.remove(employee);
             transaction.commit();
         }
     }
