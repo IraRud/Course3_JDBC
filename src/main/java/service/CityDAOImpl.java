@@ -1,57 +1,61 @@
 package service;
 
-import model.Employee;
+import model.City;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class EmployeeDAOImpl implements EmployeeDAO {
+public class CityDAOImpl implements CityDAO {
 
-    // создание (добавление) сущности Employee в таблицу
+    // создание (добавление) сущности City в таблицу
     @Override
-    public void addEmployee(Employee employee) {
+    public void addCity(City city) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.save(employee);
+            session.persist(city);
             transaction.commit();
         }
     }
 
-    // получение конкретного объекта Employee по id
+    // получение конкретного объекта City по id
     @Override
-    public Employee findEmployeeById(int id) {
+    public City findCityById(int id) {
         try (Session session = service.HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.get(Employee.class, id);
+            return session.get(City.class, id);
         }
     }
 
-    // получение списка всех объектов Employee из базы
+    // получение списка всех объектов City из базы
     @Override
-    public List<Employee> getAllEmployees() {
+    public List<City> getAllCities() {
         try (Session session = service.HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.createQuery("FROM Employee").list();
+            return session.createQuery("FROM City").list();
         }
     }
 
-    // изменение конкретного объекта Employee в базе по id
+    // изменение конкретного объекта City в базе по id
     @Override
-    public void setEmployee(Employee employee) {
+    public City setCity(City city) {
+        City updatedCity;
         try (Session session = service.HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.update(employee);
+            updatedCity = (City) session.merge(city);
             transaction.commit();
         }
+        return updatedCity;
     }
 
-    // удаление конкретного объекта Employee из базы по id
+    // удаление конкретного объекта City из базы по id
     @Override
-    public void deleteEmployee(Employee employee) {
+    public int deleteCity(City city) {
+        int id = city.getId();
         try (Session session = service.HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            session.remove(employee);
+            session.remove(city);
             transaction.commit();
         }
+        return id;
     }
 
 }

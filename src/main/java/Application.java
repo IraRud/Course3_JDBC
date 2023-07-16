@@ -1,69 +1,76 @@
+import model.City;
 import model.Employee;
+import service.CityDAOImpl;
+import service.EmployeeDAOImpl;
+
+import java.util.List;
 
 public class Application {
+
+    public static EmployeeDAOImpl employeeDAOImpl = new EmployeeDAOImpl();
+    public static CityDAOImpl cityDAOImpl = new CityDAOImpl();
+
     public static void main(String[] args) {
 
-        service.EmployeeDAOImpl employeeDAOImpl = new service.EmployeeDAOImpl();
+        City city = City.builder()
+                .name("Осака")
+                .build();
 
-        // получение списка всех объектов Employee из базы
-        System.out.println("Список всех сотрудников:");
+        Employee employee1 = Employee.builder()
+                .firstName("Юджи")
+                .lastName("Нишида")
+                .gender("муж.")
+                .age(23)
+                .city(city)
+                .build();
+
+        Employee employee2 = Employee.builder()
+                .firstName("Ран")
+                .lastName("Такахаши")
+                .gender("муж.")
+                .age(21)
+                .city(city)
+                .build();
+
+        cityDAOImpl.addCity(city); // добавление города в таблицу
+
+        city.setEmployees(List.of(employee1, employee2)); // добавление сотрудников в город
+        City updatedCity = cityDAOImpl.setCity(city); // обновление города
+
+        checkEmployees(updatedCity); // проверка
+
+        System.out.println("Список всех городов: ");
+        cityDAOImpl.getAllCities().forEach(System.out::println);
+
+        System.out.println("Список всех сотрудников: ");
         employeeDAOImpl.getAllEmployees().forEach(System.out::println);
 
-        // создание (добавление) сущности Employee в таблицу
-        Employee employee = new Employee(7, "Бред", "Питт", "муж.", 51, 2);
-        employeeDAOImpl.addEmployee(employee);
+        Employee employee3 = Employee.builder()
+                .firstName("Вэш")
+                .lastName("Ураган")
+                .gender("муж.")
+                .age(131)
+                .city(city)
+                .build();
 
-        // получение конкретного объекта Employee по id
-        Employee foundEmployee = employeeDAOImpl.findEmployeeById(employee.getId());
-        System.out.println("Информация о сотруднике с id = " + foundEmployee.getId());
-        System.out.println(foundEmployee);
+        // замена сотрудника - employee2 удалится, т.к. связь разрывается и orphanRemoval = true (удаление сироты)
+        updatedCity.setEmployees(List.of(employee1, employee3));
+        City updatedCity2 = cityDAOImpl.setCity(updatedCity); // обновление города
+        checkEmployees(updatedCity2); // проверка
 
-        // изменение конкретного объекта Employee в базе
-        employee.setFirstName("Вэш");
-        employee.setLastName("Ураган");
-        employeeDAOImpl.setEmployee(employee);
-        System.out.println("Информация о сотруднике с id = " + employee.getId());
-        System.out.println(employee);
+        // список сотрудников города, который будет удален
+        List<Employee> futureDeletedEmployees = updatedCity2.getEmployees();
+        // поиск удаленного города по id (должен вернуть null)
+        System.out.println("id: " + cityDAOImpl.findCityById(cityDAOImpl.deleteCity(updatedCity2)));
 
-        // удаление конкретного объекта Employee из базы
-        employeeDAOImpl.deleteEmployee(employee);
+        System.out.println("Содержатся сотрудники? - "
+                + employeeDAOImpl.getAllEmployees().containsAll(futureDeletedEmployees)); // false
 
     }
 
-
-//    private static void task_1() {
-//
-//        try (final PreparedStatement statement =
-//                     ConnectionConfig.getConnection().prepareStatement("SELECT * FROM employee WHERE id < 4")) {
-//
-//            ResultSet resultSet = statement.executeQuery();
-//
-//            while (resultSet.next()) {
-//
-//                int idOfEmployee = resultSet.getInt("id");
-//                System.out.println("ID сотрудника: " + idOfEmployee);
-//
-//                String firstName = resultSet.getString("first_name");
-//                System.out.println("Имя сотрудника: " + firstName);
-//
-//                String lastName = resultSet.getString("last_name");
-//                System.out.println("Фамилия сотрудника: " + lastName);
-//
-//                String gender = resultSet.getString("gender");
-//                System.out.println("Пол: " + gender);
-//
-//                int age = resultSet.getInt("age");
-//                System.out.println("Возраст: " + age);
-//
-//                int cityName = resultSet.getInt("city_id");
-//                System.out.println("Город: " + cityName);
-//                System.out.println();
-//            }
-//
-//        } catch (SQLException e) {
-//            System.out.println("Ошибка при подключении к базе данных!");
-//            e.printStackTrace();
-//        }
-//    }
+    public static void checkEmployees(City city) { // проверка добавления сотрудников
+        System.out.println(city.getName() + ": "
+                + employeeDAOImpl.getAllEmployees().containsAll(city.getEmployees()));
+    }
 
 }
